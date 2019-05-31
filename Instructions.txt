@@ -1,0 +1,12 @@
+To run locally:
+  1. Clone the repository
+  2. Open command prompt in repo directory
+  3. Execute 'python manage.py makemigrations' // creates SQL queries
+  4. Execute 'python manage.py migrate' // executes those SQL queries
+  5. Execute 'python manage.py runserver' // deploys a local server
+  6. URL: '127.0.0.1:8000/
+
+API endpoints:
+  1. http://tadpol.herokuapp.com/admin/
+  2. http://tadpol.herokuapp.com/task/<id>/
+  3. http://tadpol.herokuapp.com/tasks/
