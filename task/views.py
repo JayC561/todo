@@ -75,7 +75,7 @@ class Task(View, TaskSerializeMixin):
         return HttpResponse(json_data, content_type='application/json', status=200)
 
 
-class TaslList(View, TaskSerializeMixin):
+class TaskList(View, TaskSerializeMixin):
     def get(self, request, *args, **kwargs):
         query = Task_db.objects.all()
         json_data = self.serialize(query)
