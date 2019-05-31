@@ -8,7 +8,7 @@ class TaskSerializeMixin(object):
         dict = json.loads(json_data)
         final_list = []
         for obj in dict:
-            data = obj['fields']
-            final_list.append(data)
+            record = obj['fields']
+            final_list.append(record)
         json_data = json.dumps(final_list)
         return json_data
