@@ -1,12 +1,21 @@
 To run locally:
-  1. Clone the repository
-  2. Open command prompt in repo directory
-  3. Execute 'python manage.py makemigrations' // creates SQL queries
-  4. Execute 'python manage.py migrate' // executes those SQL queries
-  5. Execute 'python manage.py runserver' // deploys a local server
-  6. URL: '127.0.0.1:8000/
+  1. Create a directory.
+  2. Clone the repository(todo) into that directory.
+  3. Open command prompt in the same directory.
+  4. Execute 'pip install virtualenv' // creates an isolate environment for our app.
+  5. Execute '.\Scripts\activate' // runs that environment.
+  6. Execute 'pip install -r todo/requirements.txt' // installs all the packages required to run this app.
+  7. Execute 'cd todo' // move to todo directory
+  8. Execute 'python manage.py makemigrations' // creates SQL queries
+  9. Execute 'python manage.py migrate' // executes those SQL queries
+  10. Execute 'python manage.py runserver' // deploys a local server
+  11. URL: '127.0.0.1:8000/ + Endpoint
+      Endpoints:
+        1. admin/
+        2. task/<id>/
+        3. tasks/
 
-API endpoints:
+API endpoints(Host:Heroku):
   1. http://tadpol.herokuapp.com/admin/
   2. http://tadpol.herokuapp.com/task/<id>/
   3. http://tadpol.herokuapp.com/tasks/
