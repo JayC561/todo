@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>To-Do List</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert" async></script>
+    <script async>
+      function del(node,val){
+        //Using Sweetalert
+        swal({
+          title: "Are you sure?",
+          icon: "warning",
+          buttons: [
+            'No, cancel it!',
+            'Yes, I am sure!'
+          ],
+          dangerMode: true,
+        }).then(function(isConfirm) {
+          if (isConfirm) {
+            var td = node.parentElement;
+            var tr = td.parentElement;
+            tr.remove();
+            var tasks = JSON.parse(localStorage.getItem("task"));
+            tasks = tasks.splice(val);
+            localStorage.setItem("task",JSON.stringify(tasks));
+            swal({
+              title: 'Task Deleted',
+              icon: 'success'
+            })
+          } else {
+            swal("Cancelled", "", "error");
+          }
+        });
+      }
+
+      function edit(node){
+        var td = node.parentElement;
+        var tr = td.parentElement;
+        var task = tr.childNodes[2];
+        document.getElementById("task").value = task.textContent.toString();
+      }
+
+      var id = 1;
+      var obj;
+      var storedtask=null;
+      class Task{
+        constructor(task,id){
+          this.task = task;
+          this.id=id;
+        }
+        getTask(){
+          return this;
+        }
+      }
+
+      class UI{
+        static fetchValue(){
+          var value =  document.getElementById("task").value;
+          const task = new Task(value.toString(),id++);
+          obj=task.getTask();
+        }
+
+        static clearFields(){
+          var fields = document.getElementById("task");
+          fields.value="";
+      }
+      static showAllValues(){
+        var values = Store.getValue();
+        if(values.length != 0)
+        {
+          var table = document.getElementById("tbl");
+          for(var i=0;i<(values.length);i++){
+            var row = document.createElement("tr");
+            table.appendChild(row);
+            row.innerHTML = `<td>
+            ${values[i].id}
+            </td>
+            <td>
+            ${values[i].task}
+            </td>
+            <td>
+            <a href="#" class="delete" onclick=del(this,${values[i].id})>X</a>
+            </td>
+            <td>
+            <a href="#" class="edit" onclick=edit(this)>Edit</a>
+            </td>`
+          }
+        }
+      }
+
+      static showValues(obj){
+        var table = document.getElementById("tbl");
+        var row = document.createElement("tr");
+        table.appendChild(row);
+        row.innerHTML = `<td>
+        ${obj.id}
+        </td>
+        <td>
+        ${obj.task}
+        </td>
+        <td>
+        <a href="#" class="delete" onclick=del(this,${obj.id})>X</a>
+        </td>
+        <td>
+        <a href="#" class="edit" onclick=edit(this)>Edit</a>
+        </td>`
+      }
+    }
+    class Store{
+      static getValue(){
+        let task;
+        if(localStorage.getItem("task")==null){
+          task=[];
+        }
+        else{
+          task = JSON.parse(localStorage.getItem("task"));
+        }
+        return task;
+    }
+    static storeValues(task){
+        var values = Store.getValue();
+        values.push(task);
+        localStorage.setItem("task",JSON.stringify(values));
+    }
+
+      static assignID(){
+        if(window.localStorage.length == 0 || (JSON.parse(localStorage.getItem("task"))).length == 0)
+        {
+          id=1;
+        }
+        else{
+          var values = JSON.parse(localStorage.getItem("task"));
+          id=(values[(values.length)-1].id)+1;
+        }
+      }
+    }
+      window.addEventListener("DOMContentLoaded",()=>{
+        UI.showAllValues();
+        document.getElementById("btn").addEventListener("click",(event)=>{
+          //Assign ID
+          Store.assignID();
+          //Fetch Value
+          UI.fetchValue();
+          //Store value
+          Store.storeValues(obj);
+          //Show value
+          UI.showValues(obj);
+          //Clear fields
+          UI.clearFields();
+        });
+      });
+    </script>
+    <style>
+    body{text-align: center;}
+
+    button{margin:1%;}
+
+    table{position: relative;
+    left:50%;
+    transform: translateX(-50%);}
+    </style>
+  </head>
+  <body>
+    <h1>To-Do List</h1>
+    <form>
+        <label>Task</label>
+        <input type="text" id="task"/><br />
+        <button type="button" id="btn">Submit</button>
+    </form>
+    <table border="3" id="tbl">
+        <tr>
+          <th>ID</th>
+          <th>Task</th>
+          <th>Remove</th>
+          <th>Edit</th>
+        </tr>
+    </table>
+  </body>
+</html>
